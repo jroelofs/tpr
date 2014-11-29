@@ -9,8 +9,8 @@ set(TPR_VERSION_MINOR 0)
 set(TPR_RUNTIME_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/bin)
 set(TPR_LIBRARY_OUTPUT_INTDIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/lib)
 
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Configuration File
 configure_file(
@@ -23,8 +23,10 @@ include_directories(
 include_directories(
   "${PROJECT_SOURCE_DIR}/include/tpr"
   )
-add_subdirectory(lib/IHex)
+link_directories(
+  "${PROJECT_BINARY_DIR}/lib"
+  )
 
-add_executable(tpr tools/tpr/main.cpp)
-target_link_libraries(tpr IHex)
+add_subdirectory(lib)
+add_subdirectory(tools)
 
