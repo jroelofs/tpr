@@ -19,5 +19,5 @@ include_directories(
   )
 add_subdirectory(lib/IHex)
 
-add_executable(TPR tools/tpr/main.cpp)
-target_link_libraries(TPR IHex)
+add_executable(tpr tools/tpr/main.cpp)
+target_link_libraries(tpr IHex)
