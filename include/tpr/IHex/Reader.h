@@ -9,6 +9,10 @@
 #ifndef TPR_IHEX_READER_H
 #define TPR_IHEX_READER_H
 
+#include "Record.h"
+
+#include <vector>
+
 namespace tpr {
 namespace ihex {
 

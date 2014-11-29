@@ -3,3 +3,5 @@ add_library(IHex
     Record.cpp
     RecordSet.cpp
     )
+
+target_link_libraries(IHex LLVMSupport)

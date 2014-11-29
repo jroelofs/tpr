@@ -11,6 +11,11 @@
 
 #include <cinttypes>
 #include <memory>
+#include <vector>
+
+namespace llvm {
+  class raw_ostream;
+}
 
 namespace tpr {
 namespace ihex {
@@ -31,11 +36,12 @@ public:
   typedef uint16_t Checksum;
   typedef uint8_t  Length;
 
-  Record(Length l) : m_length(l), m_data(new Byte[l]) {}
+  Record(Length l) : m_length(l), m_data(l) {}
   Record &address(Address a) { m_address = a; return *this; }
   Record &type(Type t) { m_type = t; return *this; }
   Record &data(Byte b, unsigned idx) { m_data[idx] = b; return *this; }
   Record &checksum(Checksum c) { m_checksum = c; return *this; }
+  Record &autoChecksum();
 
   Length length() const { return m_length; }
   Address address() const { return m_address; }
@@ -43,13 +49,14 @@ public:
   Byte data(unsigned idx) const { return m_data[idx]; }
   Checksum checksum() const { return m_checksum; }
 
+  void print(llvm::raw_ostream &, bool color = false) const;
   void dump() const;
 
 private:
   Length m_length;
   Address m_address;
   Type m_type;
-  std::unique_ptr<Byte[]> m_data;
+  std::vector<Byte> m_data;
   Checksum m_checksum;
 };
 
