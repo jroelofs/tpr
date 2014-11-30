@@ -70,3 +70,7 @@ void Record::dump() const {
   print(llvm::outs(), true);
 }
 
+void RecordList::push_back(const Record& r) {
+  m_records.push_back(r);
+}
+

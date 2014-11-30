@@ -28,7 +28,8 @@ public:
     ExtSegAddr      = 0x02,
     StartSegAddr    = 0x03,
     ExtLinearAddr   = 0x04,
-    StartLinearAddr = 0x05
+    StartLinearAddr = 0x05,
+    LAST_TYPE = StartLinearAddr
   };
 
   typedef uint16_t Address;
@@ -39,7 +40,7 @@ public:
   Record(Length l) : m_length(l), m_data(l) {}
   Record &address(Address a) { m_address = a; return *this; }
   Record &type(Type t) { m_type = t; return *this; }
-  Record &data(Byte b, unsigned idx) { m_data[idx] = b; return *this; }
+  Record &data(unsigned idx, Byte b) { m_data[idx] = b; return *this; }
   Record &checksum(Checksum c) { m_checksum = c; return *this; }
   Record &autoChecksum();
 
@@ -58,6 +59,26 @@ private:
   Type m_type;
   std::vector<Byte> m_data;
   Checksum m_checksum;
+};
+
+class RecordList {
+  typedef std::vector<Record> container;
+public:
+  void push_back(const Record&);
+
+  template<typename Visitor>
+  void visit(Visitor &v) const {
+    for (const Record& r : m_records)
+      v.visit(r);
+  }
+
+  template<typename Visitor>
+  void visit(Visitor &&v) const {
+    Visitor own = std::move(v);
+    visit(own);
+  }
+private:
+  std::vector<Record> m_records;
 };
 
 } // namespace ihex

@@ -11,17 +11,17 @@
 
 #include "Record.h"
 
+#include <llvm/ADT/StringRef.h>
+#include <llvm/Support/MemoryBuffer.h>
+#include <llvm/Support/SourceMgr.h>
+
 #include <vector>
 
 namespace tpr {
 namespace ihex {
 
-typedef std::vector<Record> RecordList;
-
-bool ParseRecords(FILE* f, RecordList &records);
-void PrintRecords(const RecordList &records);
-
-
+bool parseIHex(llvm::MemoryBuffer *, RecordList &, llvm::SMDiagnostic &);
+bool parseIHexFile(llvm::StringRef, RecordList &, llvm::SMDiagnostic &);
 
 } // namespace ihex
 } // namespace tpr
